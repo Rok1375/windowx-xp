@@ -1,0 +1,823 @@
+@import 'tailwindcss';
+
+:root {
+  font-family: Tahoma, "Segoe UI", sans-serif;
+  font-size: 12px;
+  line-height: 1.2;
+  color: #000;
+  background: #000;
+  --xp-taskbar: linear-gradient(to bottom, #245edb 0%, #3f8cf3 9%, #245edb 18%, #245edb 92%, #333 100%);
+  --xp-start: linear-gradient(to bottom, #3c8141 0%, #59a651 10%, #3c8141 20%, #3c8141 100%);
+  --xp-title-active: linear-gradient(to right, #0058e6 0%, #3a93ff 100%);
+  --xp-title-inactive: linear-gradient(to right, #7697e7 0%, #7e9ea9 100%);
+  --xp-window-bg: #ece9d8;
+  --xp-start-right: #d3e5fa;
+  --xp-start-left: #ffffff;
+  --xp-selection: rgba(0, 0, 128, 0.5);
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Tahoma, "Segoe UI", sans-serif;
+  user-select: none;
+  -webkit-font-smoothing: none;
+  background: #000;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: default;
+}
+
+.xp-selectable,
+.xp-selectable * {
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.xp-shell {
+  width: 100%;
+  height: 100%;
+  background: #000;
+  overflow: hidden;
+}
+
+.xp-boot-screen,
+.xp-login-screen {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+}
+
+.xp-boot-screen {
+  background: radial-gradient(circle at center, #101010 0%, #000 68%);
+  color: #fff;
+  gap: 22px;
+}
+
+.xp-boot-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-transform: lowercase;
+  letter-spacing: 0.04em;
+}
+
+.xp-boot-logo span {
+  font-size: 14px;
+  opacity: 0.85;
+}
+
+.xp-boot-logo strong {
+  font-size: 42px;
+  font-weight: 700;
+}
+
+.xp-boot-loading {
+  width: min(420px, 84vw);
+  text-align: center;
+}
+
+.xp-boot-track {
+  width: 100%;
+  height: 14px;
+  padding: 2px;
+  border-radius: 8px;
+  background: linear-gradient(to bottom, #5b5b5b, #1e1e1e);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.18), 0 0 0 1px rgba(0, 0, 0, 0.55);
+  overflow: hidden;
+}
+
+.xp-boot-bar {
+  width: 40%;
+  height: 100%;
+  border-radius: 6px;
+  background: linear-gradient(to bottom, #c5e9ff, #2c87ff 38%, #0053d6 62%, #a7d7ff);
+  animation: xp-loading 1.4s linear infinite;
+}
+
+.xp-boot-loading p {
+  margin: 12px 0 0;
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+@keyframes xp-loading {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(250%);
+  }
+}
+
+@keyframes xp-sky-drift {
+  from {
+    background-position: 0 0, 0 0, 0 0;
+  }
+  to {
+    background-position: 160px 30px, -220px 10px, 0 0;
+  }
+}
+
+.xp-login-screen {
+  border: 0;
+  background: linear-gradient(to bottom, #1b4ea3 0%, #0e3f91 36%, #071f54 100%);
+  color: #fff;
+}
+
+.xp-login-card {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 18px 24px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.28), inset 0 1px 1px rgba(255, 255, 255, 0.18);
+}
+
+.xp-login-avatar,
+.xp-avatar {
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #fff 0%, #c4dcff 14%, #5a9df0 40%, #1f5fb6 100%);
+  color: #fff;
+  font-weight: 700;
+  box-shadow: inset 0 1px 4px rgba(255, 255, 255, 0.35), 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+.xp-login-avatar {
+  width: 82px;
+  height: 82px;
+  font-size: 30px;
+}
+
+.xp-login-card h1 {
+  margin: 0;
+  font-size: 26px;
+}
+
+.xp-login-card p {
+  margin: 6px 0 0;
+  opacity: 0.82;
+}
+
+.xp-desktop {
+  position: relative;
+  width: 100%;
+  height: calc(100% - 30px);
+  overflow: hidden;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.xp-desktop-overlay {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 18% 22%, rgba(255, 255, 255, 0.22) 0 10%, transparent 18%),
+    radial-gradient(circle at 72% 12%, rgba(255, 255, 255, 0.16) 0 8%, transparent 15%),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 0.04));
+  pointer-events: none;
+  mix-blend-mode: screen;
+  animation: xp-sky-drift 28s linear infinite;
+}
+
+.xp-desktop-icons {
+  position: absolute;
+  left: 14px;
+  top: 14px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(82px, 1fr));
+  gap: 14px 10px;
+  width: min(420px, 34vw);
+  z-index: 2;
+}
+
+.xp-desktop-icon {
+  width: 82px;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.75);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 1px 4px;
+  border-radius: 4px;
+}
+
+.xp-desktop-icon span,
+.xp-desktop-icon small {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.xp-desktop-icon small {
+  opacity: 0.85;
+  font-size: 10px;
+}
+
+.xp-desktop-icon.selected {
+  background: var(--xp-selection);
+  outline: 1px dotted rgba(255, 255, 255, 0.8);
+}
+
+.xp-icon-frame {
+  width: 40px;
+  height: 40px;
+  border-radius: 9px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.35), 0 2px 3px rgba(0, 0, 0, 0.2);
+  display: grid;
+  place-items: center;
+  color: #123;
+}
+
+.xp-window {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  min-width: 280px;
+  min-height: 200px;
+  max-width: calc(100vw - 8px);
+  max-height: calc(100vh - 38px);
+  background: var(--xp-window-bg);
+  border: 1px solid #0a3e98;
+  box-shadow: 0 0 0 1px #cfe0ff, 0 0 0 2px #083a89, 2px 2px 12px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+
+.xp-window.is-active {
+  box-shadow: 0 0 0 1px #cfe0ff, 0 0 0 2px #0a52c3, 2px 2px 12px rgba(0, 0, 0, 0.55);
+}
+
+.xp-titlebar {
+  height: 29px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4px 0 6px;
+  color: #fff;
+  background: var(--xp-title-active);
+  border-bottom: 1px solid #08398f;
+  cursor: move;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.55);
+}
+
+.xp-window:not(.is-active) .xp-titlebar {
+  background: var(--xp-title-inactive);
+}
+
+.xp-title-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  font-weight: 700;
+}
+
+.xp-title-left span {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.xp-controls {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.xp-controls button,
+.xp-footer-btn,
+.xp-start-button,
+.xp-taskbar-item,
+.xp-start-item,
+.xp-folder-item {
+  border: 0;
+}
+
+.xp-controls button {
+  width: 21px;
+  height: 19px;
+  display: grid;
+  place-items: center;
+  border-radius: 2px;
+  background: linear-gradient(to bottom, #fbfbfb, #c5dbf3);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.95), inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+}
+
+.xp-controls button:last-child:hover {
+  background: linear-gradient(to bottom, #ff7d7d, #d62020);
+  color: #fff;
+}
+
+.xp-window-shell {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  background: var(--xp-window-bg);
+}
+
+.xp-toolbar {
+  height: 24px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 10px;
+  border-bottom: 1px solid #b4b09a;
+  background: linear-gradient(to bottom, #f8f6eb, #e8e2c7);
+  color: #395070;
+  font-size: 11px;
+}
+
+.xp-toolbar-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #3f8cf3;
+  box-shadow: 0 0 0 1px #fff, 0 0 0 2px #244fbc;
+}
+
+.xp-toolbar-spacer {
+  flex: 1;
+}
+
+.xp-window-body {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 12px;
+}
+
+.xp-window-body::-webkit-scrollbar,
+.xp-start-left::-webkit-scrollbar,
+.xp-start-right::-webkit-scrollbar,
+.xp-selectable::-webkit-scrollbar {
+  width: 17px;
+  height: 17px;
+}
+
+.xp-window-body::-webkit-scrollbar-track,
+.xp-start-left::-webkit-scrollbar-track,
+.xp-start-right::-webkit-scrollbar-track,
+.xp-selectable::-webkit-scrollbar-track {
+  background: #d9d4c1;
+}
+
+.xp-window-body::-webkit-scrollbar-thumb,
+.xp-start-left::-webkit-scrollbar-thumb,
+.xp-start-right::-webkit-scrollbar-thumb,
+.xp-selectable::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #efefef, #bdbdbd);
+  border: 1px solid #808080;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.xp-window-body::-webkit-scrollbar-button,
+.xp-start-left::-webkit-scrollbar-button,
+.xp-start-right::-webkit-scrollbar-button,
+.xp-selectable::-webkit-scrollbar-button {
+  width: 17px;
+  height: 17px;
+  background: linear-gradient(to bottom, #efefef, #d4d0c8);
+  border: 1px solid #808080;
+}
+
+.xp-hero-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(180px, 0.9fr);
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.xp-kicker {
+  margin: 0 0 6px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #2255aa;
+}
+
+.xp-hero-panel h2,
+.xp-doc-header h2,
+.xp-recycle h2,
+.xp-game-slot h2 {
+  margin: 0 0 8px;
+  font-size: 18px;
+}
+
+.xp-hero-panel p,
+.xp-doc-section p,
+.xp-card p,
+.xp-contact-card p,
+.xp-game-slot p,
+.xp-recycle p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.35;
+}
+
+.xp-hero-stack {
+  display: grid;
+  gap: 8px;
+}
+
+.xp-stat,
+.xp-card,
+.xp-contact-card,
+.xp-game-slot {
+  background: linear-gradient(to bottom, #fdfcf8, #efe9d4);
+  border: 1px solid #beb8a2;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85);
+}
+
+.xp-stat {
+  padding: 10px;
+  display: grid;
+  gap: 4px;
+}
+
+.xp-stat strong,
+.xp-card-head strong {
+  color: #12366b;
+}
+
+.xp-stat span,
+.xp-card-head span {
+  color: #5e5b4d;
+  font-size: 11px;
+}
+
+.xp-card-grid,
+.xp-contact-layout,
+.xp-game-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.xp-card-grid {
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+}
+
+.xp-card {
+  padding: 10px;
+}
+
+.xp-card-head {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 10px;
+}
+
+.xp-document {
+  background: linear-gradient(to bottom, #f7f5ea, #efe8d4);
+}
+
+.xp-doc-header,
+.xp-doc-section {
+  margin-bottom: 12px;
+}
+
+.xp-doc-section h3,
+.xp-contact-card strong,
+.xp-game-slot strong {
+  margin: 0 0 5px;
+  font-size: 13px;
+  color: #10336d;
+}
+
+.xp-contact-layout {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.xp-contact-card,
+.xp-game-slot {
+  padding: 10px;
+  min-height: 92px;
+}
+
+.xp-contact-cta,
+.xp-game-banner {
+  grid-column: 1 / -1;
+}
+
+.xp-section-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+  color: #204d90;
+  font-weight: 700;
+}
+
+.xp-recycle {
+  min-height: 100%;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  gap: 10px;
+  padding: 18px;
+}
+
+.xp-game-grid {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+.xp-start-menu {
+  position: absolute;
+  left: 0;
+  bottom: 30px;
+  width: min(360px, 92vw);
+  border: 1px solid #0c347d;
+  border-bottom: 0;
+  border-top-right-radius: 10px;
+  box-shadow: 2px 2px 12px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  z-index: 1000;
+}
+
+.xp-start-banner {
+  min-height: 66px;
+  background: linear-gradient(to bottom, #0c4db6 0%, #1d71ec 100%);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+}
+
+.xp-avatar {
+  width: 42px;
+  height: 42px;
+  font-size: 18px;
+}
+
+.xp-start-banner strong,
+.xp-start-banner span {
+  display: block;
+}
+
+.xp-start-banner span {
+  opacity: 0.9;
+  font-size: 11px;
+}
+
+.xp-start-columns {
+  display: grid;
+  grid-template-columns: 1fr 0.88fr;
+  min-height: 280px;
+}
+
+.xp-start-left,
+.xp-start-right {
+  overflow: auto;
+  padding: 8px;
+}
+
+.xp-start-left {
+  background: var(--xp-start-left);
+}
+
+.xp-start-right {
+  background: var(--xp-start-right);
+  border-left: 1px solid #adc4e6;
+}
+
+.xp-start-item,
+.xp-folder-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 8px;
+  margin-bottom: 4px;
+  text-align: left;
+  border-radius: 3px;
+  background: transparent;
+}
+
+.xp-start-item {
+  color: #000;
+}
+
+.xp-start-item:hover {
+  background: #316ac5;
+  color: #fff;
+}
+
+.xp-start-item svg,
+.xp-folder-item svg,
+.xp-taskbar-item svg,
+.xp-footer-btn svg {
+  flex: 0 0 auto;
+}
+
+.xp-folder-item {
+  color: #153b71;
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.xp-folder-item:hover {
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.xp-start-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 8px;
+  background: linear-gradient(to bottom, #e5f0ff 0%, #bfd6fb 100%);
+  border-top: 1px solid #91a8d1;
+}
+
+.xp-footer-btn {
+  min-width: 78px;
+  padding: 6px 10px;
+  border-radius: 4px;
+  background: linear-gradient(to bottom, #f7f7f7, #d7d7d7);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85), 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.xp-footer-btn.danger {
+  background: linear-gradient(to bottom, #ffd9d9, #ffb0b0);
+}
+
+.xp-taskbar {
+  position: relative;
+  height: 30px;
+  display: flex;
+  align-items: stretch;
+  gap: 6px;
+  padding: 0 6px;
+  background: var(--xp-taskbar);
+  border-top: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  z-index: 2000;
+}
+
+.xp-start-button {
+  width: 98px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 0 12px 0 10px;
+  color: #fff;
+  background: var(--xp-start);
+  border-right: 1px solid rgba(0, 0, 0, 0.24);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+  font-style: italic;
+  font-weight: 700;
+}
+
+.xp-start-button.open {
+  filter: brightness(1.08);
+}
+
+.xp-logo {
+  width: 16px;
+  height: 16px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 1px;
+  transform: skew(-8deg);
+}
+
+.xp-logo span {
+  background: linear-gradient(to bottom, #fefefe, #b9d7ff);
+  border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.xp-taskbar-apps {
+  flex: 1;
+  display: flex;
+  align-items: stretch;
+  gap: 4px;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.xp-taskbar-item {
+  min-width: 130px;
+  max-width: 210px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 10px;
+  color: #fff;
+  background: linear-gradient(to bottom, #4a8af0 0%, #2c67d4 100%);
+  border-radius: 2px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), inset 0 -1px 0 rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+}
+
+.xp-taskbar-item.active {
+  background: linear-gradient(to bottom, #75a6ff 0%, #1f4fb7 100%);
+}
+
+.xp-taskbar-item span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.xp-tray {
+  width: 118px;
+  flex: 0 0 auto;
+  padding-left: 6px;
+  border-left: 1px solid rgba(0, 0, 0, 0.22);
+}
+
+.xp-tray-inner {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 0 10px;
+  color: #fff;
+  background: linear-gradient(to bottom, #0b7de5, #0566bf);
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.22), inset 0 -1px 2px rgba(0, 0, 0, 0.25);
+}
+
+.xp-tray-inner span {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.xp-resize-handle {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 16px;
+  height: 16px;
+  cursor: nwse-resize;
+  background: linear-gradient(135deg, transparent 0 50%, #7a7768 50% 55%, transparent 55% 100%);
+}
+
+@media (max-width: 760px) {
+  .xp-desktop-icons {
+    width: min(280px, 70vw);
+    grid-template-columns: repeat(auto-fit, minmax(76px, 1fr));
+  }
+
+  .xp-window {
+    max-width: calc(100vw - 4px);
+  }
+
+  .xp-taskbar-apps {
+    gap: 2px;
+  }
+
+  .xp-taskbar-item {
+    min-width: 96px;
+  }
+
+  .xp-start-menu {
+    width: min(94vw, 360px);
+  }
+
+  .xp-hero-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .xp-start-columns {
+    grid-template-columns: 1fr;
+  }
+
+  .xp-start-right {
+    border-left: 0;
+    border-top: 1px solid #adc4e6;
+  }
+}
