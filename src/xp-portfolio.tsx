@@ -464,15 +464,15 @@ function WindowBody({ kind }: { kind: WindowKind }) {
         <div className="xp-contact-layout">
           <div className="xp-contact-card">
             <SectionBadge icon={Mail} label="Email" />
-            <p>hello@sorensadr.example</p>
+            <p>sorensadr@gmail.com</p>
           </div>
           <div className="xp-contact-card">
             <SectionBadge icon={Github} label="GitHub" />
-            <p>/sorensadr</p>
+            <p>github.com/rok1375</p>
           </div>
           <div className="xp-contact-card">
             <SectionBadge icon={Globe} label="LinkedIn" />
-            <p>/in/sorensadr</p>
+            <p>linkedin.com/in/sorensdr</p>
           </div>
           <div className="xp-contact-card xp-contact-cta">
             <SectionBadge icon={Users} label="Let’s build" />
@@ -709,6 +709,7 @@ function StartMenu({
         <div>
           <strong>Soren Sadr</strong>
           <span>Physical Therapy • Veteran • Creative Technologist</span>
+          <span>sorensadr@gmail.com • github.com/rok1375 • linkedin.com/in/sorensdr</span>
         </div>
       </div>
 
