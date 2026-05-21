@@ -19,7 +19,7 @@ import {
 } from "lucide-react";
 
 type Phase = "boot" | "login" | "desktop";
-type WindowKind = "projects" | "resume" | "contact" | "recycle" | "games";
+type WindowKind = "about" | "projects" | "resume" | "contact" | "recycle" | "games";
 
 type Bounds = { x: number; y: number; width: number; height: number };
 
@@ -82,7 +82,8 @@ const WALLPAPER_SVG = `
 const WALLPAPER_URL = `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(WALLPAPER_SVG)}`;
 
 const desktopItems: DesktopItem[] = [
-  { kind: "projects", label: "My Projects", icon: Folder, hint: "Open portfolio projects", accent: "#ffcd38" },
+  { kind: "about", label: "About Me.txt", icon: FileText, hint: "Read Soren Sadr's bio", accent: "#76c2ff" },
+  { kind: "projects", label: "My Projects", icon: Folder, hint: "Open featured work", accent: "#ffcd38" },
   { kind: "resume", label: "Resume.pdf", icon: FileText, hint: "Read my experience", accent: "#76c2ff" },
   { kind: "contact", label: "Contact Me", icon: Mail, hint: "Find me online", accent: "#ff8ed1" },
   { kind: "recycle", label: "Recycle Bin", icon: Trash2, hint: "Recently removed files", accent: "#8de05f" },
@@ -90,6 +91,7 @@ const desktopItems: DesktopItem[] = [
 ];
 
 const startLinks = [
+  { label: "About Me", kind: "about" as const, icon: FileText },
   { label: "Projects", kind: "projects" as const, icon: Folder },
   { label: "Contact", kind: "contact" as const, icon: Mail },
   { label: "Resume", kind: "resume" as const, icon: FileText },
@@ -97,30 +99,106 @@ const startLinks = [
 ];
 
 const systemFolders = [
-  { label: "My Documents", kind: "projects" as const, icon: Folder },
+  { label: "My Documents", kind: "about" as const, icon: Folder },
   { label: "My Pictures", kind: "games" as const, icon: Image },
 ];
 
+const aboutHighlights = [
+  { label: "Identity", value: "Soren Sadr" },
+  { label: "Background", value: "Physical Therapy graduate student" },
+  { label: "Experience", value: "Army Infantry Veteran + Navy Reserve Engineer Mechanic" },
+  { label: "Focus", value: "Creative technologist" },
+];
+
+const serviceCards = [
+  {
+    name: "Premium Portfolio Websites",
+    text: "Custom portfolio websites designed to communicate identity, skill, and creative value with strong visuals and smooth interactions.",
+  },
+  {
+    name: "Landing Pages",
+    text: "High-impact landing pages built to make the first impression feel sharp, clear, and professional.",
+  },
+  {
+    name: "AI Chatbot Systems",
+    text: "Chatbot experiences powered by structured company data, support documents, FAQs, and clean response logic.",
+  },
+  {
+    name: "Motion-First Web Design",
+    text: "Scroll animations, reveal systems, animated sections, transitions, and interface movement that makes a site feel alive.",
+  },
+  {
+    name: "Creative Automation Workflows",
+    text: "Systems that help automate repetitive creative, web, data, or content tasks using AI and modern tools.",
+  },
+  {
+    name: "Social Media Visuals",
+    text: "Posters, flyers, ads, UGC concepts, short-form content ideas, and branded digital assets.",
+  },
+];
+
+const skillCards = [
+  {
+    name: "Design",
+    text: "Visual design, interface design, creative direction, layout systems, branding, posters, flyers, and social media visuals.",
+  },
+  {
+    name: "Motion",
+    text: "Scroll animation, reveal systems, cinematic transitions, motion graphics, animated web sections, and interaction design.",
+  },
+  {
+    name: "AI",
+    text: "Prompt engineering, AI image generation, AI video generation, chatbot systems, creative automation, and AI-assisted workflows.",
+  },
+  {
+    name: "Development",
+    text: "React, Vite, Tailwind, GSAP, Three.js concepts, Playwright, web scraping, structured data, and frontend systems.",
+  },
+  {
+    name: "Strategy",
+    text: "User experience, visual hierarchy, project planning, content structure, automation logic, and premium digital execution.",
+  },
+];
+
 const projectCards = [
-  { name: "Windows XP Portfolio", tech: "React + CSS", text: "A fully interactive retro desktop experience with draggable windows, taskbar state, and a boot/login flow." },
-  { name: "AI Studio Theme", tech: "State Driven UI", text: "Global window manager, start menu orchestration, icon selection, and taskbar syncing for a computer-like feel." },
-  { name: "Pixel Perfect Polish", tech: "Plain CSS", text: "Classic bevels, gradients, blocky scrollbars, and a wallpaper layer that feels like the real operating system." },
+  {
+    name: "AI Chatbot Knowledge System",
+    tech: "AI Chatbot · RAG · Automation · Data Processing",
+    text: "A structured chatbot data system built from scraped website content, cleaned documentation, FAQ data, and RAG-ready knowledge chunks.",
+  },
+  {
+    name: "Premium Portfolio Website",
+    tech: "React · Motion Design · Portfolio · Creative Direction",
+    text: "A cinematic personal portfolio concept built with animated sections, premium layouts, 3D-style visuals, and motion-first interaction design.",
+  },
+  {
+    name: "Full Website Scraper System",
+    tech: "Playwright · Crawling · Automation · Structured Data",
+    text: "A web extraction workflow designed to crawl pages, collect structured content, process data, and prepare clean outputs for AI systems.",
+  },
+  {
+    name: "Motion Visual System",
+    tech: "Motion Graphics · AI Design · Visual Systems · Content",
+    text: "A visual design system focused on animated content, social media assets, premium graphics, and AI-assisted creative production.",
+  },
 ];
 
 const resumeSections = [
   {
     title: "Profile",
-    body: "Frontend developer focused on immersive interfaces, polished interactions, and production-grade component systems.",
+    body: "I’m Soren Sadr, a designer and creative technologist focused on premium websites, motion-first interfaces, AI-assisted design, chatbot systems, and automation workflows.",
   },
   {
-    title: "Strengths",
-    body: "React, TypeScript, UI engineering, animation, responsive layout systems, and design token driven development.",
+    title: "My perspective",
+    body: "My background in military service, engineering mechanics, physical therapy, and creative technology shaped the way I design. I care about function, precision, movement, clarity, and how people interact with digital spaces.",
   },
   {
     title: "What this theme proves",
     body: "The desktop shell links icons, windows, taskbar, and start menu together so the user feels like they are operating a computer rather than browsing a webpage.",
   },
 ];
+
+const contactButtons = ["Contact Me", "Start a Project", "Let’s Connect", "Build With Me"];
 
 function makeId(prefix: string) {
   return `${prefix}-${typeof crypto !== "undefined" && "randomUUID" in crypto ? crypto.randomUUID() : Date.now().toString(36)}`;
@@ -148,6 +226,7 @@ function getSpawnBounds(index: number): Bounds {
 function createWindow(kind: WindowKind, index: number, zIndex: number): AppWindow {
   const bounds = getSpawnBounds(index);
   const titles: Record<WindowKind, string> = {
+    about: "About Me.txt",
     projects: "My Projects",
     resume: "Resume.pdf",
     contact: "Contact Me",
@@ -158,7 +237,7 @@ function createWindow(kind: WindowKind, index: number, zIndex: number): AppWindo
     id: makeId(kind),
     kind,
     title: titles[kind],
-    icon: kind === "contact" ? Mail : kind === "resume" ? FileText : kind === "recycle" ? Trash2 : kind === "games" ? Sparkles : Folder,
+    icon: kind === "about" ? FileText : kind === "contact" ? Mail : kind === "resume" ? FileText : kind === "recycle" ? Trash2 : kind === "games" ? Sparkles : Folder,
     x: bounds.x,
     y: bounds.y,
     width: bounds.width,
@@ -198,30 +277,147 @@ function SectionBadge({ icon: Icon, label }: { icon: typeof Folder; label: strin
 }
 
 function WindowBody({ kind }: { kind: WindowKind }) {
+  if (kind === "about") {
+    return (
+      <div className="xp-window-body xp-selectable xp-document">
+        <div className="xp-doc-header">
+          <p className="xp-kicker">About Me</p>
+          <h2>Soren Sadr</h2>
+          <p>
+            I build digital experiences at the intersection of design, motion, AI, and systems
+            thinking.
+          </p>
+        </div>
+
+        <div className="xp-hero-panel">
+          <div>
+            <p>
+              My path is not traditional. I come from a background in military service,
+              engineering mechanics, physical therapy, and creative technology. That mix shaped the
+              way I design. I care about function, precision, movement, clarity, and how people
+              interact with digital spaces.
+            </p>
+          </div>
+          <div className="xp-hero-stack">
+            {aboutHighlights.map((item) => (
+              <div className="xp-stat" key={item.label}>
+                <strong>{item.label}</strong>
+                <span>{item.value}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <section className="xp-doc-section">
+          <h3>About Me</h3>
+          <p>
+            I build digital experiences at the intersection of design, motion, AI, and systems
+            thinking. Whether I’m building a portfolio website, AI chatbot, animated interface,
+            3D-style visual, or automation workflow, my goal is always the same: create something
+            that feels premium, useful, and unforgettable.
+          </p>
+        </section>
+
+        <section className="xp-doc-section">
+          <h3>What I Do</h3>
+          <p>
+            I create premium digital systems built for attention, clarity, and motion.
+          </p>
+        </section>
+
+        <div className="xp-card-grid">
+          {serviceCards.map((card) => (
+            <article className="xp-card" key={card.name}>
+              <div className="xp-card-head">
+                <strong>{card.name}</strong>
+              </div>
+              <p>{card.text}</p>
+            </article>
+          ))}
+        </div>
+
+        <section className="xp-doc-section">
+          <h3>Skills &amp; Tools</h3>
+          <p>Design, motion, AI, development, and strategy — all shaped by a systems-first mindset.</p>
+        </section>
+
+        <div className="xp-card-grid">
+          {skillCards.map((card) => (
+            <article className="xp-card" key={card.name}>
+              <div className="xp-card-head">
+                <strong>{card.name}</strong>
+              </div>
+              <p>{card.text}</p>
+            </article>
+          ))}
+        </div>
+
+        <section className="xp-doc-section">
+          <h3>My Design Philosophy</h3>
+          <p>
+            I believe digital experiences should be clear, useful, and visually memorable. A good
+            website should not feel static. It should guide attention, create emotion, and make the
+            user want to keep exploring.
+          </p>
+        </section>
+
+        <section className="xp-doc-section">
+          <h3>Why My Work Is Different</h3>
+          <p>
+            My background gives me a rare mix of discipline, technical problem-solving, movement
+            science, and creative instinct. The military taught me structure and execution.
+            Engineering mechanics taught me systems and troubleshooting. Physical therapy taught me
+            movement, function, and human behavior. Creative technology gave me the tools to turn
+            those ideas into digital experiences.
+          </p>
+        </section>
+
+        <section className="xp-doc-section">
+          <h3>Let’s Build Something</h3>
+          <p>
+            I’m interested in creative projects that combine design, motion, AI, automation, and
+            premium digital experiences.
+          </p>
+          <p>
+            Button text options: {contactButtons.join(" · ")}.
+          </p>
+        </section>
+
+        <section className="xp-doc-section">
+          <h3>Very Short Bio</h3>
+          <p>
+            I’m Soren Sadr, a designer and creative technologist focused on premium websites,
+            motion-first interfaces, AI-assisted design, chatbot systems, and automation workflows.
+          </p>
+        </section>
+      </div>
+    );
+  }
+
   if (kind === "projects") {
     return (
       <div className="xp-window-body xp-selectable">
         <div className="xp-hero-panel">
           <div>
-            <p className="xp-kicker">Developer portfolio</p>
-            <h2>Windows XP. But make it a living portfolio.</h2>
+            <p className="xp-kicker">Selected Work</p>
+            <h2>A collection of projects focused on motion, AI, automation, interface design, and premium digital experiences.</h2>
             <p>
-              Everything is wired together like a real OS: desktop icons, windows, taskbar buttons,
-              start menu, and responsive shell behavior.
+              Each project is built with a systems-first mindset: clear structure, strong visuals,
+              smooth interaction, and practical purpose.
             </p>
           </div>
           <div className="xp-hero-stack">
             <div className="xp-stat">
-              <strong>Interactive</strong>
-              <span>Window manager</span>
+              <strong>Motion-first</strong>
+              <span>Design that feels alive</span>
             </div>
             <div className="xp-stat">
-              <strong>Retro</strong>
-              <span>XP visual system</span>
+              <strong>Systems-minded</strong>
+              <span>Structure before polish</span>
             </div>
             <div className="xp-stat">
-              <strong>Responsive</strong>
-              <span>Desktop-first layout</span>
+              <strong>Premium</strong>
+              <span>High-impact execution</span>
             </div>
           </div>
         </div>
@@ -245,7 +441,7 @@ function WindowBody({ kind }: { kind: WindowKind }) {
     return (
       <div className="xp-window-body xp-selectable xp-document">
         <div className="xp-doc-header">
-          <h2>Developer — Resume.pdf</h2>
+          <h2>Soren Sadr — Resume.pdf</h2>
           <p>Classic text document view, fully selectable.</p>
         </div>
         {resumeSections.map((section) => (
@@ -256,7 +452,7 @@ function WindowBody({ kind }: { kind: WindowKind }) {
         ))}
         <section className="xp-doc-section">
           <h3>Skills</h3>
-          <p>React, TypeScript, CSS architecture, state management, motion design, and systems thinking.</p>
+          <p>React, TypeScript, UI engineering, animation, responsive layout systems, and design token driven development.</p>
         </section>
       </div>
     );
@@ -268,19 +464,23 @@ function WindowBody({ kind }: { kind: WindowKind }) {
         <div className="xp-contact-layout">
           <div className="xp-contact-card">
             <SectionBadge icon={Mail} label="Email" />
-            <p>hello@developer.example</p>
+            <p>hello@sorensadr.example</p>
           </div>
           <div className="xp-contact-card">
             <SectionBadge icon={Github} label="GitHub" />
-            <p>/developer</p>
+            <p>/sorensadr</p>
           </div>
           <div className="xp-contact-card">
             <SectionBadge icon={Globe} label="LinkedIn" />
-            <p>/in/developer</p>
+            <p>/in/sorensadr</p>
           </div>
           <div className="xp-contact-card xp-contact-cta">
-            <SectionBadge icon={Users} label="Let's build" />
-            <p>Use the taskbar, start menu, and desktop icons to jump around the portfolio instantly.</p>
+            <SectionBadge icon={Users} label="Let’s build" />
+            <p>
+              I’m interested in creative projects that combine design, motion, AI, automation,
+              and premium digital experiences.
+            </p>
+            <p>Button text options: {contactButtons.join(" · ")}.</p>
           </div>
         </div>
       </div>
@@ -296,7 +496,7 @@ function WindowBody({ kind }: { kind: WindowKind }) {
             <p>Animated background, keyboard-ready layout, and room for future minigames like Snake or Pong.</p>
           </div>
           <div className="xp-game-slot">
-            <SectionBadge icon={Terminal} label="Developer Console" />
+            <SectionBadge icon={Terminal} label="Creative Console" />
             <p>Perfect for adding playful terminal-style mini challenges or easter eggs later.</p>
           </div>
           <div className="xp-game-slot xp-game-banner">
@@ -505,10 +705,10 @@ function StartMenu({
   return (
     <div className="xp-start-menu" onPointerDown={(event) => event.stopPropagation()}>
       <div className="xp-start-banner">
-        <div className="xp-avatar">D</div>
+        <div className="xp-avatar">S</div>
         <div>
-          <strong>Developer</strong>
-          <span>Windows XP Portfolio</span>
+          <strong>Soren Sadr</strong>
+          <span>Physical Therapy • Veteran • Creative Technologist</span>
         </div>
       </div>
 
@@ -571,9 +771,9 @@ function LoginScreen({ onLogin }: { onLogin: () => void }) {
   return (
     <button className="xp-login-screen" type="button" onClick={onLogin}>
       <div className="xp-login-card">
-        <div className="xp-login-avatar">D</div>
+        <div className="xp-login-avatar">S</div>
         <div>
-          <h1>Developer</h1>
+          <h1>Soren Sadr</h1>
           <p>Click your profile to log on</p>
         </div>
       </div>
@@ -595,7 +795,7 @@ export default function WindowsXpPortfolio() {
   const [desktopSize, setDesktopSize] = useState({ width: window.innerWidth, height: window.innerHeight - TASKBAR_HEIGHT });
 
   useEffect(() => {
-    document.title = "Developer • Windows XP Portfolio";
+    document.title = "Soren Sadr • Windows XP Portfolio";
   }, []);
 
   useEffect(() => {
